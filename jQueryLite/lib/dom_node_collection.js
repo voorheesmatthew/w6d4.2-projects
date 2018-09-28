@@ -57,15 +57,25 @@ DOMNodeCollection.prototype.addClass = function (className) {
 
 DOMNodeCollection.prototype.removeClass = function (className) {
   this.array.forEach(el => {
-    el.className.replace(className, '');
+    el.className = el.className.replace(className, '');
   });
 };
 
 DOMNodeCollection.prototype.find = function (selector) {
-  const collection = this.array.filter(el => {
-    el.attributes.values
+  let collection = [];
+  this.array.forEach(el => {
+    collection = collection.concat(Array.from(el.querySelectorAll(selector)));
   });
+  return new DOMNodeCollection(collection);
 };
+
+// DOMNodeCollection.prototype.on = function (trigger, callback) {
+//   const onTrigger = `on${trigger}`;
+//   this.array.forEach(el =>{
+//     el.onTrigger = callback();
+//   });
+//   });
+// };
 
 
 module.exports = DOMNodeCollection;
